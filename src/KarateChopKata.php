@@ -13,54 +13,34 @@ class KarateChopKata
      */
     public static function chop(array $array, int $target): int
     {
-        if (!self::arrayContains($array, $target)) {
+        // no data -> no index
+        if ($array === []) {
             return -1;
         }
 
-        if(count($array) === 1) {
-            return self::getKeyAtFirstPositionOnValueMatch($array, $target);
+        // array has 1 element, it's it if value matches
+        if (count($array) === 1) {
+            return reset($array) !== $target
+                ? -1
+                : array_keys($array)[0];
         }
 
-        $splitArray = self::splitArray($array);
-        $partToProcess = self::arrayContains($splitArray->left, $target)
-            ? $splitArray->left
-            : $splitArray->right;
+        // split array & recursively search in it
+        $chopIndex = intval(floor(count($array) / 2));
+        $parts = [
+            array_slice($array, 0, $chopIndex, preserve_keys: true),
+            array_slice($array, $chopIndex, preserve_keys: true)
+        ];
+        foreach ($parts as $part) {
+            // target in part ? -> chop again
+            if ($target >= reset($part) && $target <= end($part)) {
+                return self::chop($part, $target);
+            }
+        }
 
-        return count($partToProcess) > 1
-            ? self::chop($partToProcess, $target)
-            : self::getKeyAtFirstPositionOnValueMatch($partToProcess, $target);
+        // no result in any part
+        return -1;
     }
 
-    private static function splitArray(array $array): SplitHaystack
-    {
-        $rightIndexStart = intval(floor(count($array) / 2));
-        $left = array_slice($array, 0, $rightIndexStart, preserve_keys: true);
-        $right = array_slice($array, $rightIndexStart, preserve_keys: true);
-
-        $assertErrorMessage = 'partie de tableau vide, ne contient qu\'un élément ou est mal splité';
-        assert($left !== [], $assertErrorMessage);
-        assert($right !== [], $assertErrorMessage);
-
-        return new SplitHaystack($left, $right, $rightIndexStart);
-    }
-
-    private static function arrayContains(array $array, int $value): bool
-    {
-        $min = reset($array);
-        $max = end($array);
-        return $value >= $min && $value <= $max;
-
-    }
-
-    /**
-     * Index of target in array
-     * @return int -1 if target is not in haystack
-     */
-    private static function getKeyAtFirstPositionOnValueMatch(array $array, int $value): int
-    {
-        return reset($array) !== $value
-            ? -1
-            : (int)array_keys($array)[0];
-    }
 }
 
