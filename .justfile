@@ -32,8 +32,11 @@ tests format='--testdox':
     {{docker_php_exec}} php vendor/bin/phpunit {{format}}
 
 # XDEBUG_MODE=debug XDEBUG_SESSION=1 XDEBUG_CONFIG="client_host=172.25.0.1 client_port=9003" PHP_IDE_CONFIG="serverName=myrepl" phpunit
+# XDEBUG_MODE=debug XDEBUG_SESSION=1 XDEBUG_CONFIG="client_host=host.docker.internal client_port=9003" PHP_IDE_CONFIG="serverName=myrepl" phpunit
+
 #tests_xdebug:
-#    {{docker_php_exec}} 'XDEBUG_MODE=debug XDEBUG_SESSION=1 XDEBUG_CONFIG="client_host=172.25.0.1 client_port=9003" PHP_IDE_CONFIG="serverName=myrepl" php vendor/bin/phpunit'
+tests_xdebug:
+    {{docker_php_exec}} env XDEBUG_MODE=debug XDEBUG_SESSION=1 XDEBUG_CONFIG="client_host=host.docker.internal client_port=9003" PHP_IDE_CONFIG="serverName=myrepl" php vendor/bin/phpunit
 
 test filter:
     {{docker_php_exec}} php vendor/bin/phpunit --filter {{filter}}
