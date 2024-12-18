@@ -17,36 +17,28 @@ class KarateChopKata
         }
 
         if(count($haystack) === 1) {
-            return reset($haystack) !== $target
-                ? -1
-                : array_keys($haystack)[0];
+            return self::getIndexInHaystack($haystack, $target);
         }
 
         // couper l'array en 2
         $splittedHaystack = self::splitArray($haystack);
-        $left = $splittedHaystack->left;
-        $right = $splittedHaystack->right;
 
         // valeur est dans la partie gauche : val min <= cible && val max >= cible
-        if (self::arrayContains($left, $target)) {
+        if (self::arrayContains($splittedHaystack->left, $target)) {
             // relancer le processus
-            if (count($left) > 1) {
-                return self::chop($left, $target);
+            if (count($splittedHaystack->left) > 1) {
+                return self::chop($splittedHaystack->left, $target);
             }
 
-            return reset($left) !== $target
-                ? -1
-                : array_keys($left)[0];
+            return self::getIndexInHaystack($splittedHaystack->left, $target);
         }
 
         // valeur dans la partie droite
-        if (count($right) > 1) {
-            return self::chop($right, $target);
+        if (count($splittedHaystack->right) > 1) {
+            return self::chop($splittedHaystack->right, $target);
         }
 
-        return reset($right) !== $target
-            ? -1
-            : array_keys($right)[0];
+        return self::getIndexInHaystack($splittedHaystack->right, $target);
     }
 
     private static function splitArray(array $haystack): SplittedHaystack
@@ -68,6 +60,17 @@ class KarateChopKata
         $max = end($haystack);
         return $target >= $min && $target <= $max;
 
+    }
+
+    /**
+     * Index of target in haystack
+     * @return int -1 if target is not in haystack
+     */
+    public static function getIndexInHaystack(array $haystack, int $target): int
+    {
+        return reset($haystack) !== $target
+            ? -1
+            : (int) array_keys($haystack)[0];
     }
 }
 
