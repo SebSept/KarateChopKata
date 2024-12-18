@@ -13,8 +13,7 @@ class KarateChopKata
     public static function chop(array $haystack, int $target): int
     {
         // valeur n'est pas dans le haystack : min > cible || max < cible
-        if(reset($haystack) > $target || end($haystack) < $target)
-        {
+        if (!self::arrayContains($haystack, $target)) {
             return -1;
         }
 
@@ -24,10 +23,9 @@ class KarateChopKata
         $right = $splittedHaystack->right;
 
         // valeur est dans la partie gauche : val min <= cible && val max >= cible
-        if (end($left) >= $target && reset($left) <= $target) {
+        if (self::arrayContains($left, $target)) {
             if (count($left) === 1) {
-                if(reset($left) !== $target)
-                {
+                if (reset($left) !== $target) {
                     return -1;
                 }
 
@@ -39,9 +37,8 @@ class KarateChopKata
         }
 
         // valeur dans la partie droite
-        if(count($right) === 1) {
-            if(reset($right) !== $target)
-            {
+        if (count($right) === 1) {
+            if (reset($right) !== $target) {
                 return -1;
             }
 
@@ -51,13 +48,21 @@ class KarateChopKata
         return self::chop($right, $target);
     }
 
-    public static function splitArray(array $haystack): SplittedHaystack
+    private static function splitArray(array $haystack): SplittedHaystack
     {
         $rightIndexStart = intval(floor(count($haystack) / 2));
         $left = array_slice($haystack, 0, $rightIndexStart, preserve_keys: true);
         $right = array_slice($haystack, $rightIndexStart, preserve_keys: true);
 
         return new SplittedHaystack($left, $right, $rightIndexStart);
+    }
+
+    private static function arrayContains(array $haystack, int $target): bool
+    {
+        $min = reset($haystack);
+        $max = end($haystack);
+        return $target >= $min && $target <= $max;
+
     }
 }
 
