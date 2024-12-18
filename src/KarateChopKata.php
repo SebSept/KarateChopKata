@@ -24,28 +24,24 @@ class KarateChopKata
 
         // valeur est dans la partie gauche : val min <= cible && val max >= cible
         if (self::arrayContains($left, $target)) {
-            if (count($left) === 1) {
-                if (reset($left) !== $target) {
-                    return -1;
-                }
-
-                return array_keys($left)[0];
+            // relancer le processus
+            if (count($left) > 1) {
+                return self::chop($left, $target);
             }
 
-            // relancer le processus
-            return self::chop($left, $target);
+            return reset($left) !== $target
+                ? -1
+                : array_keys($left)[0];
         }
 
         // valeur dans la partie droite
-        if (count($right) === 1) {
-            if (reset($right) !== $target) {
-                return -1;
-            }
-
-            return array_keys($right)[0];
+        if (count($right) > 1) {
+            return self::chop($right, $target);
         }
 
-        return self::chop($right, $target);
+        return reset($right) !== $target
+            ? -1
+            : array_keys($right)[0];
     }
 
     private static function splitArray(array $haystack): SplittedHaystack
@@ -53,6 +49,10 @@ class KarateChopKata
         $rightIndexStart = intval(floor(count($haystack) / 2));
         $left = array_slice($haystack, 0, $rightIndexStart, preserve_keys: true);
         $right = array_slice($haystack, $rightIndexStart, preserve_keys: true);
+
+//        $assertErrorMessage = 'partie de tableau vide, ne contient qu\'un élément ou est mal splité';
+//        assert(count($left) === 0, $assertErrorMessage);
+//        assert(count($right) === 0, $assertErrorMessage);
 
         return new SplittedHaystack($left, $right, $rightIndexStart);
     }
