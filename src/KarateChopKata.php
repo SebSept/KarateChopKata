@@ -12,9 +12,14 @@ class KarateChopKata
      */
     public static function chop(array $haystack, int $target): int
     {
-        // valeur n'est pas dans le haystack : min > cible || max < cible
         if (!self::arrayContains($haystack, $target)) {
             return -1;
+        }
+
+        if(count($haystack) === 1) {
+            return reset($haystack) !== $target
+                ? -1
+                : array_keys($haystack)[0];
         }
 
         // couper l'array en 2
