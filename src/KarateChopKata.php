@@ -50,9 +50,9 @@ class KarateChopKata
         $left = array_slice($haystack, 0, $rightIndexStart, preserve_keys: true);
         $right = array_slice($haystack, $rightIndexStart, preserve_keys: true);
 
-//        $assertErrorMessage = 'partie de tableau vide, ne contient qu\'un élément ou est mal splité';
-//        assert(count($left) === 0, $assertErrorMessage);
-//        assert(count($right) === 0, $assertErrorMessage);
+        $assertErrorMessage = 'partie de tableau vide, ne contient qu\'un élément ou est mal splité';
+        assert(count($left) !== 0, $assertErrorMessage);
+        assert(count($right) !== 0, $assertErrorMessage);
 
         return new SplittedHaystack($left, $right, $rightIndexStart);
     }
