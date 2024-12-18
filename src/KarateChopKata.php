@@ -9,11 +9,11 @@ namespace App;
 class KarateChopKata
 {
     /**
-     * @return int index of target in haystack
+     * @return int index of target in array | -1 if target is not found
      */
     public static function chop(array $array, int $target): int
     {
-        // no data -> no index
+        // no data
         if ($array === []) {
             return -1;
         }
@@ -38,7 +38,6 @@ class KarateChopKata
             }
         }
 
-        // no result in any part
         return -1;
     }
 
