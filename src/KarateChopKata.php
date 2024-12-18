@@ -20,25 +20,14 @@ class KarateChopKata
             return self::getIndexInHaystack($haystack, $target);
         }
 
-        // couper l'array en 2
         $splittedHaystack = self::splitArray($haystack);
+        $partToProcess = self::arrayContains($splittedHaystack->left, $target)
+            ? $splittedHaystack->left
+            : $splittedHaystack->right;
 
-        // valeur est dans la partie gauche : val min <= cible && val max >= cible
-        if (self::arrayContains($splittedHaystack->left, $target)) {
-            // relancer le processus
-            if (count($splittedHaystack->left) > 1) {
-                return self::chop($splittedHaystack->left, $target);
-            }
-
-            return self::getIndexInHaystack($splittedHaystack->left, $target);
-        }
-
-        // valeur dans la partie droite
-        if (count($splittedHaystack->right) > 1) {
-            return self::chop($splittedHaystack->right, $target);
-        }
-
-        return self::getIndexInHaystack($splittedHaystack->right, $target);
+        return count($partToProcess) > 1
+            ? self::chop($partToProcess, $target)
+            : self::getIndexInHaystack($partToProcess, $target);
     }
 
     private static function splitArray(array $haystack): SplittedHaystack
@@ -70,7 +59,7 @@ class KarateChopKata
     {
         return reset($haystack) !== $target
             ? -1
-            : (int) array_keys($haystack)[0];
+            : (int)array_keys($haystack)[0];
     }
 }
 
