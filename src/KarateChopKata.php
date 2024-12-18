@@ -17,7 +17,7 @@ class KarateChopKata
         }
 
         if(count($haystack) === 1) {
-            return self::getIndexInHaystack($haystack, $target);
+            return self::getKeyAtFirstPositionOnValueMatch($haystack, $target);
         }
 
         $splittedHaystack = self::splitArray($haystack);
@@ -27,7 +27,7 @@ class KarateChopKata
 
         return count($partToProcess) > 1
             ? self::chop($partToProcess, $target)
-            : self::getIndexInHaystack($partToProcess, $target);
+            : self::getKeyAtFirstPositionOnValueMatch($partToProcess, $target);
     }
 
     private static function splitArray(array $haystack): SplittedHaystack
@@ -55,7 +55,7 @@ class KarateChopKata
      * Index of target in haystack
      * @return int -1 if target is not in haystack
      */
-    public static function getIndexInHaystack(array $haystack, int $target): int
+    private static function getKeyAtFirstPositionOnValueMatch(array $haystack, int $target): int
     {
         return reset($haystack) !== $target
             ? -1
