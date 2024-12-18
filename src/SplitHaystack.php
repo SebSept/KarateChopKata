@@ -2,7 +2,7 @@
 
 namespace App;
 
-readonly class SplittedHaystack
+readonly class SplitHaystack
 {
     public function __construct(
         public array $left,
