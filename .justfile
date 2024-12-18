@@ -3,7 +3,7 @@ docker_php_exec := "docker compose exec -it php"
 composer := docker_php_exec + " composer "
 
 up:
-    docker compose up -d
+    docker compose up --detach --remove-orphans --build
 
 # update source files + docker compose down+up
 update: && tests
@@ -37,9 +37,6 @@ tests format='--testdox':
 #tests_xdebug:
 tests_xdebug:
     {{docker_php_exec}} env XDEBUG_MODE=debug XDEBUG_SESSION=1 XDEBUG_CONFIG="client_host=host.docker.internal client_port=9003" PHP_IDE_CONFIG="serverName=myrepl" php vendor/bin/phpunit
-
-test filter:
-    {{docker_php_exec}} php vendor/bin/phpunit --filter {{filter}}
 
 # interactive php shell
 psysh:
