@@ -11,7 +11,6 @@ class KarateChopKataTest extends TestCase
      * Test chop with an empty array
      *
      * @covers \App\KarateChopKata::chop
-     * @covers \App\KarateChopKata::arrayContains
      */
     public function testChopWithEmptyArray(): void
     {
@@ -22,8 +21,6 @@ class KarateChopKataTest extends TestCase
      * Test chop with a single element array
      *
      * @covers \App\KarateChopKata::chop
-     * @covers \App\KarateChopKata::arrayContains
-     * @covers \App\KarateChopKata::getKeyAtFirstPositionOnValueMatch
      */
     public function testChopWithSingleElement(): void
     {
@@ -35,10 +32,6 @@ class KarateChopKataTest extends TestCase
      * Test chop with three elements array - Present values
      *
      * @covers \App\KarateChopKata::chop
-     * @covers \App\KarateChopKata::arrayContains
-     * @covers \App\KarateChopKata::getKeyAtFirstPositionOnValueMatch
-     * @covers \App\KarateChopKata::splitArray
-     * @covers \App\SplitHaystack::__construct
      */
     public function testChopWithThreeElementsPresentValues(): void
     {
@@ -52,7 +45,6 @@ class KarateChopKataTest extends TestCase
      * Test chop with three elements array - Missing values
      *
      * @covers \App\KarateChopKata::chop
-     * @covers \App\KarateChopKata::arrayContains
      */
     public function testChopWithThreeElementsMissingValues(): void
     {
@@ -67,10 +59,6 @@ class KarateChopKataTest extends TestCase
      * Test chop with four elements array - Present values
      *
      * @covers \App\KarateChopKata::chop
-     * @covers \App\KarateChopKata::arrayContains
-     * @covers \App\KarateChopKata::getKeyAtFirstPositionOnValueMatch
-     * @covers \App\KarateChopKata::splitArray
-     * @covers \App\SplitHaystack::__construct
      */
     public function testChopWithFourElementsPresentValues(): void
     {
@@ -85,7 +73,6 @@ class KarateChopKataTest extends TestCase
      * Test chop with four elements array - Missing values
      *
      * @covers \App\KarateChopKata::chop
-     * @covers \App\KarateChopKata::arrayContains
      */
     public function testChopWithFourElementsMissingValues(): void
     {
