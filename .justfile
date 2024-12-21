@@ -2,7 +2,7 @@ docker_php_exec := "docker compose exec -it php"
 composer := docker_php_exec + " composer "
 
 up:
-    docker pull
+    docker compose pull
     docker compose up --detach --remove-orphans --build
 
 # update source files + docker compose down+up
